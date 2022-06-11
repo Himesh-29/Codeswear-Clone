@@ -1,19 +1,30 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   AiOutlineShoppingCart,
   AiFillCloseCircle,
   AiFillMinusCircle,
   AiFillPlusCircle,
   AiOutlineClear,
+  AiOutlineLogin,
 } from "react-icons/ai";
 import { BsFillBagCheckFill } from "react-icons/bs";
-import Image from "next/image";
+import { MdAccountCircle } from "react-icons/md";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
-  // console.log(cart, addToCart, removeFromCart, clearCart, subTotal);
+import { ToastContainer, toast } from "react-toastify";
+
+const Navbar = ({
+  user,
+  cart,
+  addToCart,
+  removeFromCart,
+  clearCart,
+  subTotal,
+  logout,
+}) => {
   const ref = useRef();
+
   const toggleCart = () => {
     if (ref.current.classList.contains("translate-x-full")) {
       ref.current.classList.remove("translate-x-full");
@@ -24,11 +35,26 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
     }
   };
 
-  let path = useRouter().pathname;
+  const [dropdown, setdropdown] = useState(false);
+
+  let router = useRouter();
+  let path = router.pathname;
+  
   return (
-    <nav className="bg-zinc-50 border-gray-200 rounded dark:bg-gray-800 fixed top-0 min-w-full border-2 z-50  shadow-md">
+    <div>
+      <ToastContainer
+        position="top-left"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div
-        style={{ width: "87%" }}
+        style={{ width: "85%" }}
         className="flex flex-row justify-between opacity-90"
       >
         <Link href="/">
@@ -212,45 +238,95 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
                   Contact
                 </li>
               </Link>
-              <Link href="/login">
-                <li
-                  className={
-                    path === "/login"
-                      ? "mr-10 text-lg slublock py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                      : "mr-10 text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:cursor-pointer"
-                  }
-                  onClick={() => {
-                    if (window.innerWidth < 768)
-                      document
-                        .querySelector(".codeswear-brand-logo")
-                        .classList.toggle("hidden");
-                    document
-                      .getElementById("mobile-menu")
-                      .classList.toggle("hidden");
-                    document
-                      .getElementById("burgerOpen")
-                      .classList.toggle("hidden");
-                    document
-                      .getElementById("burgerCls")
-                      .classList.toggle("hidden");
-                  }}
-                >
-                  Login
-                </li>
-              </Link>
             </ul>
           </div>
         </div>
       </div>
-      <div className="absolute top-3 right-0 text-lg slublock py-2 pr-4 pl-3 bg-transparent text-blue-700">
+      <div className="absolute flex flex-row top-3 right-0 text-lg slublock py-2 pr-4 pl-3 bg-transparent text-blue-700">
+        {user.value && (
+          <div
+            onMouseOver={() => {
+              setdropdown(true);
+            }}
+          >
+            <MdAccountCircle className="lg:text-3xl sm:text-lg md:text-2xl cursor-pointer" />
+          </div>
+        )}
+        {!user.value && (
+          <Link href="/login">
+            <a>
+              <AiOutlineLogin className="lg:text-3xl sm:text-lg md:text-2xl cursor-pointer" />
+            </a>
+          </Link>
+        )}
         <AiOutlineShoppingCart
-          className="lg:text-3xl sm:text-xl md:text-2xl cursor-pointer"
+          className="lg:text-3xl sm:text-lg md:text-2xl cursor-pointer ml-1"
           onClick={toggleCart}
         />
+        {dropdown && (
+          <div
+            onMouseLeave={() => {
+              setdropdown(false);
+            }}
+            className="absolute lg:right-18 md:right-14 sm:right-10 top-10 bg-blue-500 rounded-md px-4 py-2 text-white font-semibold w-36"
+          >
+            <ul>
+              <Link
+                href="/account"
+                onClick={() => {
+                  setdropdown(false);
+                }}
+              >
+                <a>
+                  <li className="hover:cursor-pointer py-1 hover:text-lg hover:font-bold text-base">
+                    My Account
+                  </li>
+                </a>
+              </Link>
+              <Link
+                href="/orders"
+                onClick={() => {
+                  setdropdown(false);
+                }}
+              >
+                <a>
+                  <li className="hover:cursor-pointer py-1 hover:text-lg hover:font-bold text-base">
+                    Orders
+                  </li>
+                </a>
+              </Link>
+              <li
+                onClick={() => {
+                  logout();
+                  toast.success("Logout successful!", {
+                    position: "top-left",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  });
+                  setdropdown(false);
+                  setTimeout(() => {
+                    router.push("/");
+                  }, 2500);
+                }}
+                className="hover:cursor-pointer py-1 hover:text-lg hover:font-bold text-base"
+              >
+                Logout
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <div
         ref={ref}
-        className="sidebar h-[100vh] absolute top-0 -right-1 bg-cyan-200 py-10 pr-16 pl-5 transform transition-transform translate-x-full w-80 rounded-xl"
+        className={`sidebar h-[100vh] absolute overflow-y-scroll -top-1 -right-1 bg-cyan-200 py-10 pr-16 pl-5 transform  ${
+          Object.keys(cart).length == 0
+            ? "transform translate-x-full"
+            : "translate-x-0"
+        } w-80 rounded-xl`}
       >
         <h2 className="font-bold text-lg mb-5 ">Shopping Cart</h2>
         <span className="absolute top-4 right-2" onClick={toggleCart}>
@@ -267,7 +343,9 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
             <li className="my-3" key={item}>
               <div className="item flex w-full justify-between">
                 <span style={{ overflowWrap: "anywhere" }} className="w-3/5">
-                  {cart[item].name}
+                  {cart[item].name} -{" "}
+                  {cart[item].size ? `(${cart[item].size})` : ""}{" "}
+                  {cart[item].variant ? `(${cart[item].variant})` : ""}
                 </span>
                 <span
                   style={{ overflowWrap: "anywhere" }}
@@ -305,11 +383,16 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
             </li>
           ))}
         </ol>
+        <div>
+          <h2 className="font-bold">Subtotal: ₹{subTotal}</h2>
+        </div>
         <div className="flex flex-row justify-between">
-          <button className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold">
-            <BsFillBagCheckFill className="m-1" size={13} />
-            Checkout
-          </button>
+          <Link href="/checkout">
+            <button className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold">
+              <BsFillBagCheckFill className="m-1" size={13} />
+              Checkout
+            </button>
+          </Link>
           <button
             className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold"
             onClick={clearCart}
@@ -319,7 +402,7 @@ const Navbar = ({ cart, addToCart, removeFromCart, clearCart, subTotal }) => {
           </button>
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
