@@ -11,6 +11,7 @@ const Slug = ({
   subTotal,
   product,
 }) => {
+  // console.log(product.slug);
   const [pin, setpin] = useState();
   const [serviceability, setServiceability] = useState();
 

@@ -39,7 +39,7 @@ const Navbar = ({
 
   let router = useRouter();
   let path = router.pathname;
-  
+
   return (
     <div>
       <ToastContainer
@@ -212,32 +212,6 @@ const Navbar = ({
               >
                 <Link href="/mugs">Mugs</Link>
               </li>
-              <Link href="/contact">
-                <li
-                  className={
-                    path === "/contact"
-                      ? "text-lg slublock py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
-                      : "text-lg block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 hover:cursor-pointer"
-                  }
-                  onClick={() => {
-                    if (window.innerWidth < 768)
-                      document
-                        .querySelector(".codeswear-brand-logo")
-                        .classList.toggle("hidden");
-                    document
-                      .getElementById("mobile-menu")
-                      .classList.toggle("hidden");
-                    document
-                      .getElementById("burgerOpen")
-                      .classList.toggle("hidden");
-                    document
-                      .getElementById("burgerCls")
-                      .classList.toggle("hidden");
-                  }}
-                >
-                  Contact
-                </li>
-              </Link>
             </ul>
           </div>
         </div>
@@ -245,8 +219,8 @@ const Navbar = ({
       <div className="absolute flex flex-row top-3 right-0 text-lg slublock py-2 pr-4 pl-3 bg-transparent text-blue-700">
         {user.value && (
           <div
-            onMouseOver={() => {
-              setdropdown(true);
+            onClick={() => {
+              setdropdown(!dropdown);
             }}
           >
             <MdAccountCircle className="lg:text-3xl sm:text-lg md:text-2xl cursor-pointer" />
@@ -264,12 +238,7 @@ const Navbar = ({
           onClick={toggleCart}
         />
         {dropdown && (
-          <div
-            onMouseLeave={() => {
-              setdropdown(false);
-            }}
-            className="absolute lg:right-18 md:right-14 sm:right-10 top-10 bg-blue-500 rounded-md px-4 py-2 text-white font-semibold w-36"
-          >
+          <div className="absolute lg:right-18 md:right-14 right-8 top-10 bg-blue-500 rounded-md px-4 py-2 text-white font-semibold w-36">
             <ul>
               <Link
                 href="/account"
@@ -323,7 +292,7 @@ const Navbar = ({
       <div
         ref={ref}
         className={`sidebar h-[100vh] absolute overflow-y-scroll -top-1 -right-1 bg-cyan-200 py-10 pr-16 pl-5 transform  ${
-          Object.keys(cart).length == 0
+          !path.startsWith("/product") || Object.keys(cart).length == 0
             ? "transform translate-x-full"
             : "translate-x-0"
         } w-80 rounded-xl`}
@@ -388,13 +357,17 @@ const Navbar = ({
         </div>
         <div className="flex flex-row justify-between">
           <Link href="/checkout">
-            <button className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold">
+            <button
+              disabled={Object.keys(cart).length === 0}
+              className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold disabled:bg-blue-300"
+            >
               <BsFillBagCheckFill className="m-1" size={13} />
               Checkout
             </button>
           </Link>
           <button
-            className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold"
+            disabled={Object.keys(cart).length === 0}
+            className="flex mx-auto mt-8 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold disabled:bg-blue-300"
             onClick={clearCart}
           >
             <AiOutlineClear className="m-1" size={13} />
