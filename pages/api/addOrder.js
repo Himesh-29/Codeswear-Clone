@@ -28,6 +28,8 @@ const handler = async (req, res) => {
       orderid: req.body.orderid,
       address: req.body.address,
       amount: req.body.subTotal,
+      name: req.body.name,
+      phone: req.body.phone,
       products: req.body.cart,
     });
     await order.save();

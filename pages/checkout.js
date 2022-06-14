@@ -123,16 +123,18 @@ const Checkout = ({
         });
       } else {
         let email = user.value ? user_email : EMAIL;
+        let newaddress = `${address},${district},${state}-${pincode}`;
+
         let data = {
           orderid: Math.floor(Math.random() * Date.now()),
           cart,
           subTotal,
           email,
-          address,
+          address: newaddress,
           pincode,
           phone,
+          name,
         };
-
         res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/addOrder`, {
           method: "POST",
           headers: {

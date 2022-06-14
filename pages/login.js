@@ -13,8 +13,8 @@ const Login = () => {
     }
   }, []);
 
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
 
   const handlerChange = (e) => {
     if (e.target.name == "email") setemail(e.target.value);
@@ -115,14 +115,11 @@ const Login = () => {
                       <div className="text-center pt-1 mb-12 pb-1">
                         <button
                           onClick={handlerSubmit}
-                          className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
+                          className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                           type="button"
                           data-mdb-ripple="true"
                           data-mdb-ripple-color="light"
-                          style={{
-                            background:
-                              "linear-gradient(to right,#ee7724,#d8363a,#dd3675,#b44593)",
-                          }}
+                          
                         >
                           Log in
                         </button>
