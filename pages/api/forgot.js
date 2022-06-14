@@ -50,7 +50,7 @@ const handler = async (req, res) => {
         }
         let email = forgot.email;
         let newEncryptedPass = CryptoJS.AES.encrypt(
-          JSON.stringify(req.body.password),
+          JSON.stringify(req.body.newPassword),
           process.env.SECRETPASSWORDKEY
         ).toString();
         await User.findOneAndUpdate(
@@ -58,12 +58,10 @@ const handler = async (req, res) => {
           { password: newEncryptedPass }
         );
         await Forgot.findOneAndDelete({ token: token });
-        return res
-          .status(200)
-          .json({
-            success:
-              "Password updated successfully. Redirecting you to login page",
-          });
+        return res.status(200).json({
+          success:
+            "Password updated successfully. Redirecting you to login page",
+        });
       }
     }
   } else {
