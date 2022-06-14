@@ -80,6 +80,9 @@ const orders = () => {
                             <th scope="col" className="px-6 py-3">
                               Price
                             </th>
+                            <th scope="col" className="px-6 py-3">
+                              Amount
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
@@ -104,6 +107,11 @@ const orders = () => {
                                   </td>
                                   <td className="px-6 py-4">
                                     ₹{order.products[product].price}
+                                  </td>
+                                  <td className="px-6 py-4">
+                                    ₹
+                                    {order.products[product].price *
+                                      order.products[product].qty}
                                   </td>
                                 </tr>
                               );

@@ -1,7 +1,15 @@
 import Product from "../../models/Product";
 import connectDb from "../../middlewares/connectDb";
+import pincode from "../../pincodes.json";
 
 const handler = async (req, res) => {
+  let data = await fetch(`${process.env.HOST}/api/pincode`);
+  let pinJson = await data.json();
+  if (!pinJson.includes(req.body.pincode)) {
+    return res.status(400).json({
+      error: "Sorry! We don't deliver to this pincode yet.",
+    });
+  }
   let check_subTotal = 0;
   let cart = req.body.cart;
   let subTotal = req.body.subTotal;

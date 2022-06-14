@@ -131,6 +131,7 @@ function MyApp({ Component, pageProps }) {
         clearCart={clearCart}
         subTotal={subTotal}
         buyNow={buyNow}
+        logout={logout}
         {...pageProps}
       />
       <Footer />

@@ -45,21 +45,23 @@ const Checkout = ({
 
   let initiatePayment = async (e) => {
     e.preventDefault();
+    setphone(Number.parseInt(phone).toString());
     if (
-      user_email.length == 0 &&
-      (name.length == 0 ||
-        EMAIL.length == 0 ||
-        address.length == 0 ||
-        phone.length != 10 ||
-        pincode.length != 6 ||
-        state.length == 0 ||
-        district.length == 0)
+      name.length == 0 ||
+      (EMAIL.length == 0 && user_email.length == 0) ||
+      address.length == 0 ||
+      phone.length != 10 ||
+      Number.parseInt(phone) <= 0 ||
+      pincode.length != 6 ||
+      state.length == 0 ||
+      district.length == 0
     ) {
       let stringError = "";
       if (name.length == 0) stringError += "Name, ";
-      if (EMAIL.length == 0) stringError += "Email, ";
+      if (EMAIL.length == 0 && user_email.length == 0) stringError += "Email, ";
       if (address.length == 0) stringError += "Address, ";
-      if (phone.length != 10) stringError += "Phone, ";
+      if (phone.length != 10 || Number.parseInt(phone) <= 0)
+        stringError += "Phone, ";
       if (pincode.length != 6) stringError += "Pincode, ";
       if (state.length == 0) stringError += "State, ";
       if (district.length == 0) stringError += "District";
@@ -90,7 +92,11 @@ const Checkout = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ cart: cart, subTotal: subTotal }),
+          body: JSON.stringify({
+            cart: cart,
+            subTotal: subTotal,
+            pincode: Number.parseInt(pincode),
+          }),
         }
       );
       let response = await res.json();
@@ -105,6 +111,16 @@ const Checkout = ({
           progress: undefined,
         });
         clearCart();
+      } else if (res.status == 400) {
+        toast.error(response.error, {
+          position: "top-left",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       } else {
         let email = user.value ? user_email : EMAIL;
         let data = {

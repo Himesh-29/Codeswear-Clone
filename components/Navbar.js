@@ -260,7 +260,7 @@ const Navbar = ({
               >
                 <a>
                   <li className="hover:cursor-pointer py-1 hover:text-lg hover:font-bold text-base">
-                    Orders
+                    My orders
                   </li>
                 </a>
               </Link>
