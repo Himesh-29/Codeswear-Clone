@@ -111,61 +111,59 @@ const account = ({ user, logout }) => {
       <h2 className="lg:mx-32 mx-4 font-bold text-xl">Change Password</h2>
       <form onSubmit={submitForm}>
         <div className="mb-8 mt-4 lg:mx-32 mx-4">
-          <div className="flex justify-between my-2">
-            <div style={{ width: "31%" }}>
-              <label
-                htmlFor="currentPassword"
-                className="leading-7 text-sm text-gray-600 font-semibold"
-              >
-                Current Password
-              </label>
-              <input
-                required={true}
-                type="password"
-                id="currentPassword"
-                name="currentPassword"
-                value={currentPassword}
-                onChange={handlerChange}
-                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <div style={{ width: "31%" }}>
-              <label
-                htmlFor="newPassword"
-                className="leading-7 text-sm text-gray-600 font-semibold"
-              >
-                New Password
-              </label>
-              <input
-                required={true}
-                type="password"
-                id="newPassword"
-                name="newPassword"
-                value={newPassword}
-                onChange={handlerChange}
-                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <div style={{ width: "31%" }}>
-              <label
-                htmlFor="confirmNewPassword"
-                className="leading-7 text-sm text-gray-600 font-semibold"
-              >
-                Confirm New Password
-              </label>
-
-              <input
-                required={true}
-                type="password"
-                id="confirmNewPassword"
-                name="confirmNewPassword"
-                value={confirmNewPassword}
-                onChange={handlerChange}
-                className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
+          <div className="my-6" style={{ width: "100%" }}>
+            <label
+              htmlFor="currentPassword"
+              className="leading-7 text-sm text-gray-600 font-semibold"
+            >
+              Current Password
+            </label>
+            <input
+              required={true}
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              value={currentPassword}
+              onChange={handlerChange}
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
           </div>
-          <div className="mt-5">
+          <div className="my-6" style={{ width: "100%" }}>
+            <label
+              htmlFor="newPassword"
+              className="leading-7 text-sm text-gray-600 font-semibold"
+            >
+              New Password
+            </label>
+            <input
+              required={true}
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={newPassword}
+              onChange={handlerChange}
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="my-6" style={{ width: "100%" }}>
+            <label
+              htmlFor="confirmNewPassword"
+              className="leading-7 text-sm text-gray-600 font-semibold"
+            >
+              Confirm Password
+            </label>
+
+            <input
+              required={true}
+              type="password"
+              id="confirmNewPassword"
+              name="confirmNewPassword"
+              value={confirmNewPassword}
+              onChange={handlerChange}
+              className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            />
+          </div>
+          <div className="mt-5 ">
             <button
               className="flex mr-2 text-white bg-blue-600 border-0 p-2 focus:outline-none hover:bg-blue-700 rounded text-sm font-semibold disabled:bg-blue-300"
               onSubmit={submitForm}
