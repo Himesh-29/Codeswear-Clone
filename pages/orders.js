@@ -10,7 +10,7 @@ const orders = () => {
   const [myorders, setmyorders] = useState();
   useEffect(() => {
     const fetchData = async () => {
-      let res = await fetch("http://localhost:3000/api/myorder", {
+      let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/myorder`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
